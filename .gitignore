@@ -1,0 +1,34 @@
+# ESP-IDF Build & Config
+build/
+**/build/
+firmware/build/
+sdkconfig
+sdkconfig.old
+dependencies.lock
+managed_components/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+venv/
+.venv/
+env/
+
+# Uploads & Temporary Cache
+tools/uploads/
+*.tmp
+*.log
+
+# IDE & Editor Configs
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+**/.vscode/
+.idea/
+**/.clangd/
+*.sublime-project
+*.sublime-workspace

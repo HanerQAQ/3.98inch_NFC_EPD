@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>3.98″ 无源四色墨水屏工作台</title>
+<meta name="theme-color" content="#eef0f3">
+<style>
+:root{
+  color-scheme:light dark;
+  --primary:#4a5bc4;--primary-hover:#3a4aa8;--on-primary:#fff;
+  --ink:#1b1d24;--on-ink:#f4f2ee;
+  --bg-app:#e9e8e5;--panel:#f4f3f1;--card-bg:#fcfbfa;--text-main:#1b1d24;--text-muted:#7b7e88;--border:rgba(27,29,36,.08);
+  --grid:rgba(27,29,36,.075);--glass:rgba(252,251,250,.72);--sunk:rgba(27,29,36,.04);--shadow:0 1px 2px rgba(27,29,36,.04),0 12px 30px -16px rgba(27,29,36,.2);
+  --gold:#e8c14a;--red:#b8352c;--r:20px;--ch:40vh;--cap:calc(100vw - 64px);
+}
+@media (prefers-color-scheme:dark){:root{
+  --primary:#9aa9f5;--primary-hover:#b6c1fa;--on-primary:#0e1330;
+  --ink:#ece9e3;--on-ink:#14151a;
+  --bg-app:#0d0e12;--panel:#13141a;--card-bg:#1a1c23;--text-main:#ece9e3;--text-muted:#8e909b;--border:rgba(236,233,227,.08);
+  --grid:rgba(236,233,227,.06);--glass:rgba(26,28,35,.72);--sunk:rgba(236,233,227,.045);--shadow:0 1px 0 rgba(255,255,255,.035) inset,0 12px 30px -16px rgba(0,0,0,.7);
+}}
+.rot-select option{background:var(--card-bg);color:var(--text-main)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg-app);color:var(--text-main);display:flex;flex-direction:column;height:100dvh;overflow:hidden;font-size:14px;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+
+/* Header */
+.header{flex:none;display:flex;align-items:center;gap:14px;padding:12px 20px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.inks{display:flex}
+.inks i{width:14px;height:14px;border-radius:50%;margin-left:-5px;box-shadow:0 0 0 2px var(--bg-app),inset 0 0 0 1px rgba(128,128,128,.35)}
+.inks i:first-child{margin-left:0}
+.brand h1{font-size:15px;font-weight:600;letter-spacing:.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand p{font-size:11.5px;color:var(--text-muted);margin-top:2px;white-space:nowrap}
+.badge{font:600 10.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.3px;padding:5px 11px;border-radius:99px;background:var(--glass);border:1px solid var(--border);color:var(--text-muted);white-space:nowrap}
+.hd-right{margin-left:auto;display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text-muted);white-space:nowrap}
+.live{width:7px;height:7px;border-radius:50%;background:var(--primary);animation:breathe 2.6s ease-out infinite}
+@keyframes breathe{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--primary) 50%,transparent)}70%,100%{box-shadow:0 0 0 8px transparent}}
+.render-time-txt{font-variant-numeric:tabular-nums}
+
+/* Layout */
+.app{flex:1;min-height:0;display:flex;flex-direction:column}
+.stage{flex:none;display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px 12px 14px;position:relative;background:radial-gradient(60% 55% at 50% 48%,color-mix(in srgb,var(--card-bg) 90%,transparent),transparent 72%),radial-gradient(var(--grid) 1px,transparent 1.3px) 0 0/18px 18px}
+.dock{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--panel);border-radius:26px 26px 0 0;box-shadow:0 -12px 32px -18px rgba(16,19,23,.25);position:relative}
+
+/* Segmented pill */
+.tabs-group{display:flex;gap:2px;padding:3px;border-radius:99px;background:var(--glass);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border:1px solid var(--border);box-shadow:var(--shadow)}
+.tab-btn{border:0;background:transparent;padding:6px 15px;border-radius:99px;font-size:12.5px;font-weight:500;color:var(--text-muted);transition:background .2s,color .2s}
+.tab-btn.active{background:var(--ink);color:var(--on-ink);font-weight:600}
+
+/* Device shell */
+.frame{position:relative;padding:11px 11px 22px;border-radius:30px;background:linear-gradient(160deg,#4b4b52 0%,#27282d 48%,#1b1c20 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),inset 0 1.5px 0 rgba(255,255,255,.22),inset 0 -2px 3px rgba(0,0,0,.55),0 2px 4px rgba(0,0,0,.3),0 28px 44px -20px rgba(0,0,0,.55)}
+.frame .nfc{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);width:26px;height:16px;color:rgba(255,255,255,.28)}
+.canvas-wrapper{position:relative;margin:0 auto;overflow:hidden;background:#f4efe6;border-radius:12px;display:flex;align-items:center;justify-content:center;user-select:none;touch-action:none;box-shadow:0 0 0 1px rgba(0,0,0,.65),inset 0 3px 10px rgba(70,52,22,.38),inset 0 0 0 3px rgba(70,52,22,.06)}
+.canvas-wrapper.portrait{width:min(calc(var(--ch)*552/768),var(--cap));aspect-ratio:552/768}
+.canvas-wrapper.landscape{width:min(calc(var(--ch)*768/552),var(--cap));aspect-ratio:768/552}
+.canvas-wrapper canvas{display:block;width:100%!important;height:100%!important;image-rendering:pixelated;cursor:grab;background:#f4efe6}
+.canvas-wrapper canvas:active{cursor:grabbing}
+.canvas-overlay-tag,.canvas-overlay-tip{position:absolute;z-index:5;color:#fff;font-size:10.5px;font-weight:600;padding:4px 10px;border-radius:99px;background:rgba(16,19,23,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.canvas-overlay-tag{top:9px;left:9px;pointer-events:none;font-variant-numeric:tabular-nums}
+.canvas-overlay-tip{bottom:9px;right:9px;cursor:pointer;user-select:none;transition:background .2s}
+
+/* Geometry bar */
+.geo{display:flex;align-items:center;gap:2px;padding:4px 8px 4px 5px;border-radius:99px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);box-shadow:var(--shadow);max-width:100%}
+.ib{width:34px;height:34px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;color:var(--text-muted);transition:background .15s,color .15s}
+.ib:hover{background:var(--sunk);color:var(--text-main)}
+.ib.active{background:var(--ink);color:var(--on-ink)}
+.geo .sep{width:1px;height:18px;background:var(--border);margin:0 5px;flex:none}
+.geo input[type=range]{width:clamp(56px,14vw,140px);flex:0 1 auto;min-width:48px}
+.geo .zoom-val{min-width:36px;text-align:right;font:600 11px ui-monospace,Consolas,monospace;color:var(--text-muted)}
+
+/* Range */
+input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;height:24px}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:var(--border);background:color-mix(in srgb,var(--text-muted) 28%,transparent)}
+input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:color-mix(in srgb,var(--text-muted) 28%,transparent)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-7px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 1px rgba(16,19,23,.18),0 2px 6px rgba(16,19,23,.3)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 1px rgba(16,19,23,.18),0 2px 6px rgba(16,19,23,.3)}
+
+/* Dock */
+.dock-tabs{flex:none;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:12px 14px 2px;padding:3px;border-radius:99px;background:var(--sunk)}
+.dtab{border:0;background:transparent;padding:8px 2px;border-radius:99px;font-size:12.5px;font-weight:500;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .2s,color .2s}
+.dtab.on{background:var(--card-bg);color:var(--text-main);font-weight:650;box-shadow:0 1px 3px rgba(16,19,23,.15)}
+.dock-body{flex:1;min-height:0;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:14px;overscroll-behavior:contain;scrollbar-width:thin}
+.sec{display:none}
+.dock[data-t="0"] .sec[data-p="0"],.dock[data-t="1"] .sec[data-p="1"],.dock[data-t="2"] .sec[data-p="2"]{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card-bg);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-title{font-size:12px;font-weight:600;letter-spacing:.6px;color:var(--text-muted);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card-title small{font-weight:500;font-size:11.5px;letter-spacing:0;color:var(--text-main);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}
+
+.algo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.algo-item{position:relative;border-radius:14px;padding:11px 12px;cursor:pointer;background:var(--sunk);display:flex;flex-direction:column;gap:4px;box-shadow:inset 0 0 0 1px transparent;transition:box-shadow .18s,background .18s}
+.algo-item:hover{box-shadow:inset 0 0 0 1px var(--border)}
+.algo-item.active{background:color-mix(in srgb,var(--primary) 11%,var(--card-bg));box-shadow:inset 0 0 0 1.5px var(--primary)}
+.algo-item.active::after{content:"";position:absolute;top:10px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--primary)}
+.algo-name{font-size:13px;font-weight:600;letter-spacing:.3px}
+.algo-desc{font-size:11px;line-height:1.4;color:var(--text-muted)}
+
+.meter{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--sunk);margin-bottom:12px}
+.meter i{display:block;flex:0 1 auto;flex-grow:0;transition:flex-grow .45s}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.stat-box{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 10px;border-radius:12px;background:var(--sunk)}
+.stat-label{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:5px}
+.stat-dot{width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(128,128,128,.4)}
+.stat-val{font:650 13.5px ui-monospace,Consolas,monospace}
+
+.tune-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tune-row:last-child{margin-bottom:0}
+.tune-lbl{width:60px;flex:none;font-size:12px;color:var(--text-muted)}
+.tune-opts{flex:1;display:flex;gap:2px;padding:3px;border-radius:12px;background:var(--sunk)}
+.btn-opt{flex:1;padding:6px 2px;border:0;background:transparent;border-radius:9px;font-size:12px;font-weight:500;color:var(--text-muted);transition:background .15s,color .15s}
+.btn-opt:hover{color:var(--text-main)}
+.btn-opt.active{background:var(--card-bg);color:var(--text-main);font-weight:650;box-shadow:0 1px 3px rgba(16,19,23,.16)}
+.tune-row input[type=range]{flex:1;min-width:0}
+.tune-row .val{width:34px;text-align:right;font:600 12px ui-monospace,Consolas,monospace}
+.rot-select{flex:1;min-width:0;padding:9px 12px;border-radius:12px;border:0;background:var(--sunk);font-size:12.5px;font-weight:600}
+
+.drop-zone{position:relative;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;background:var(--sunk);box-shadow:inset 0 0 0 1.5px var(--border);transition:box-shadow .15s,background .15s;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.drop-zone input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;display:block;margin:0;padding:0;font-size:0;border:none}
+.drop-zone:hover,.drop-zone.dragover{box-shadow:inset 0 0 0 1.5px var(--primary);background:color-mix(in srgb,var(--primary) 8%,transparent)}
+.drop-zone svg{width:30px;height:30px;stroke:var(--primary);fill:none;flex:none;pointer-events:none}
+.drop-zone p{font-size:12px;line-height:1.5;color:var(--text-muted);pointer-events:none}
+.drop-zone b{display:block;color:var(--text-main);font-size:13.5px;font-weight:650;pointer-events:none}
+.solid-color-row{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--text-muted)}
+.solid-color-row span{margin-right:auto}
+.btn-solid{width:28px;height:28px;border-radius:50%;border:0;box-shadow:inset 0 0 0 1px rgba(128,128,128,.35),0 2px 5px rgba(0,0,0,.18);transition:transform .15s}
+.btn-solid:hover{transform:scale(1.1)}
+.btn-solid:active{transform:scale(.92)}
+.btn-secondary-group{display:flex;gap:8px}
+.btn-secondary{flex:1;display:flex;flex-direction:row;justify-content:center;align-items:center;gap:8px;padding:12px 14px;border-radius:14px;border:0;background:var(--sunk);font-size:12.5px;font-weight:600;color:var(--text-main);transition:background .15s}
+.btn-secondary:hover{background:color-mix(in srgb,var(--text-muted) 18%,transparent)}
+
+/* Action bar */
+.dock-act{flex:none;padding:10px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--panel) 70%,transparent);display:flex;flex-direction:column;gap:10px}
+.btn-primary{width:100%;border:0;border-radius:18px;padding:15px 18px;background:linear-gradient(180deg,color-mix(in srgb,var(--ink) 92%,#fff),var(--ink));color:var(--on-ink);font-size:15px;font-weight:600;letter-spacing:.8px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -10px rgba(16,19,23,.55);transition:transform .12s,opacity .15s}
+.btn-primary:hover{opacity:.92}
+.btn-primary:active{transform:scale(.985)}
+.btn-primary-content{display:flex;align-items:center;gap:10px}
+.progress-panel{padding:0 2px}
+.progress-text{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;color:var(--text-muted)}
+#prog_percent{font:650 11.5px ui-monospace,Consolas,monospace;color:var(--text-main)}
+.progress-bar-bg{position:relative;height:5px;margin-top:7px;border-radius:99px;background:color-mix(in srgb,var(--text-muted) 24%,transparent);overflow:hidden}
+.progress-bar-bg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/6 - 2px),var(--panel) calc(100%/6 - 2px) calc(100%/6));pointer-events:none;z-index:2}
+.progress-bar-fill{position:relative;width:0;height:100%;background:var(--primary);transition:width .3s ease;overflow:hidden;border-radius:99px}
+.progress-bar-fill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transform:translateX(-100%);animation:sheen 1.8s linear infinite}
+@keyframes sheen{to{transform:translateX(100%)}}
+
+/* Desktop / any landscape: two-column workbench */
+@media (min-width:1025px),(orientation:landscape){
+  :root{--ch:clamp(130px,calc(100dvh - 230px),768px);--cap:calc(100vw - clamp(300px,40vw,408px) - 56px)}
+  .app{flex-direction:row}
+  .stage{flex:1;min-width:0;justify-content:center;gap:18px;padding:0 24px 24px}
+  .dock{flex:none;width:clamp(300px,40vw,408px);border-radius:28px 0 0 0;box-shadow:-14px 0 36px -22px rgba(16,19,23,.28)}
+  .dock-tabs{display:none}
+  .sec{display:flex!important;flex-direction:column;gap:12px}
+  .sec.tools{order:9}
+  .dock-body{padding:18px 16px 8px}
+  .header{padding:14px 28px}
+}
+@media (orientation:landscape) and (max-height:520px){
+  :root{--ch:clamp(110px,calc(100dvh - 190px),768px)}
+  .header{padding:6px 16px}.brand p{display:none}
+  .stage{gap:8px;padding:0 12px 8px}
+  .frame{padding:7px 7px 12px;border-radius:20px}.frame .nfc{display:none}
+  .geo{padding:2px 6px 2px 3px}.ib{width:30px;height:30px}
+  .dock-body{padding:10px 12px}.card{padding:12px}
+}
+/* Portrait (phone / tablet): percentage split, view mode vs edit mode */
+@media (orientation:portrait) and (max-width:1024px){
+  :root{--cap:calc(100vw - 56px)}
+  .brand p,.badge{display:none}
+  .header{padding:7px 14px}
+  .inks i{width:12px;height:12px}
+  .brand h1{font-size:14px}
+  .app{flex-direction:column}
+  .stage{flex:0 0 58%;min-height:0;justify-content:center;gap:7px;padding:0 12px 8px;container-type:size;transition:flex-basis .32s cubic-bezier(.3,.7,.2,1)}
+  .dock{flex:1 1 0;margin-top:-2px;border-radius:22px 22px 0 0}
+  body[data-mode="edit"] .stage{flex-basis:27%}
+  body[data-mode="edit"] .geo,body[data-mode="edit"] .tabs-group{display:none}
+  .tab-btn{padding:5px 12px;font-size:12px}
+  .frame{padding:7px 7px 13px;border-radius:20px}
+  .frame .nfc{display:none}
+  .geo{padding:2px 6px 2px 3px}
+  .geo .sep.hm{display:none}
+  .ib{width:30px;height:30px}
+  .ib svg{width:16px;height:16px}
+  .canvas-overlay-tag,.canvas-overlay-tip{font-size:9px;padding:2px 7px;max-width:calc(100% - 10px)}
+  .canvas-overlay-tag{top:5px;left:5px}.canvas-overlay-tip{bottom:5px;right:5px}
+  .dock .grip{display:block}
+  .dock-tabs{margin:2px 12px 0}
+  .dtab{padding:7px 2px;font-size:12px}
+  .dock-body{padding:10px 12px;gap:10px}
+  .sec{gap:10px}
+  .card{padding:12px;border-radius:16px}
+  .card-title{margin-bottom:10px}
+  .tune-row{margin-bottom:10px}
+  .dock-act{padding:8px 12px calc(8px + env(safe-area-inset-bottom));gap:6px}
+  .btn-primary{padding:12px 16px;border-radius:15px;font-size:14.5px}
+  .progress-text{font-size:11px}
+  .progress-bar-bg{height:4px;margin-top:5px}
+}
+@supports (height:1cqh){
+  @media (orientation:portrait) and (max-width:1024px){
+    body{--chrome:112px}
+    body[data-mode="edit"]{--chrome:30px}
+    .canvas-wrapper.portrait{width:min(calc((100cqh - var(--chrome))*552/768),var(--cap))}
+    .canvas-wrapper.landscape{width:min(calc((100cqh - var(--chrome))*768/552),var(--cap))}
+  }
+}
+.grip{display:none;flex:none;width:100%;height:16px;border:0;background:transparent;position:relative}
+.grip::after{content:"";position:absolute;left:50%;top:6px;width:36px;height:4px;margin-left:-18px;border-radius:4px;background:color-mix(in srgb,var(--text-muted) 45%,transparent)}
+@media (max-width:380px){.ib{width:28px;height:28px}.tab-btn{padding:5px 9px}}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-mode="view">
+
+<header class="header">
+  <div class="brand">
+    <div class="inks"><i style="background:#1a1a1a"></i><i style="background:#f1ece0"></i><i style="background:var(--gold)"></i><i style="background:var(--red)"></i></div>
+    <div>
+      <h1>3.98″ 无源四色墨水屏工作台</h1>
+      <p>四向旋转 · 实时构图 · 单次 NFC 护航刷新</p>
+    </div>
+  </div>
+  <span class="badge">JD79665AA · PN5180 13.56MHz</span>
+  <div class="hd-right"><span class="render-time-txt" id="render_time_txt">就绪</span><span class="live" title="在线"></span></div>
+</header>
+
+<div class="app">
+  <section class="stage">
+    <div class="tabs-group">
+      <button type="button" class="tab-btn active" id="tab_epd" onclick="setViewTab('epd')">墨水屏仿真</button>
+      <button type="button" class="tab-btn" id="tab_pixel" onclick="setViewTab('pixel')">像素细节</button>
+      <button type="button" class="tab-btn" id="tab_orig" onclick="setViewTab('orig')">原图构图</button>
+    </div>
+
+    <div class="frame-box"><div class="frame">
+      <div class="canvas-wrapper portrait" id="cv_wrap">
+        <div class="canvas-overlay-tag" id="ov_tag">竖屏 90° (552×768)</div>
+        <canvas id="screen_canvas" width="552" height="768"></canvas>
+        <div class="canvas-overlay-tip" id="ov_tip" onclick="togglePanMode()">[浏览模式] 点击开启平移</div>
+      </div>
+      <svg class="nfc" viewBox="0 0 26 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12a8 8 0 0 1 0-8M9 10.5a5 5 0 0 1 0-5M13 9a2 2 0 0 1 0-2" transform="translate(5 2)"/></svg>
+    </div></div>
+
+    <div class="geo">
+      <button type="button" class="ib" title="逆时针 90°" onclick="rotL()"><svg class="i" viewBox="0 0 24 24"><path d="M3 4v5h5"/><path d="M3.5 9A9 9 0 1 1 3 13"/></svg></button>
+      <button type="button" class="ib" title="顺时针 90°" onclick="rotR()"><svg class="i" viewBox="0 0 24 24"><path d="M21 4v5h-5"/><path d="M20.5 9A9 9 0 1 0 21 13"/></svg></button>
+      <button type="button" class="ib" title="镜像翻转" onclick="toggleFlip()"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M8 7 3 17h5zM16 7l5 10h-5z"/></svg></button>
+      <button type="button" class="ib" title="居中重置" onclick="resetTransform()"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button>
+      <span class="sep"></span>
+      <button type="button" class="ib active" id="btn_fit_contain" title="完整留白 (Contain)" onclick="setFit('contain')"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><rect x="8" y="7" width="8" height="10" rx="1"/></svg></button>
+      <button type="button" class="ib" id="btn_fit_cover" title="裁剪填满 (Cover)" onclick="setFit('cover')"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 15l5-5 6 6 3-3 4 4"/></svg></button>
+      <span class="sep hm"></span>
+      <input type="range" id="sc_rng" min="20" max="300" value="100" oninput="onScaleChange(this.value)" aria-label="构图缩放">
+      <span class="zoom-val" id="sc_txt">100%</span>
+    </div>
+  </section>
+
+  <aside class="dock" id="dock" data-t="0">
+    <button type="button" class="grip" aria-label="展开/收起画布" onclick="toggleEdit()"></button>
+    <nav class="dock-tabs">
+      <button type="button" class="dtab on" onclick="setDockTab(0)">换图导出</button>
+      <button type="button" class="dtab" onclick="setDockTab(1)">构图调色</button>
+      <button type="button" class="dtab" onclick="setDockTab(2)">显色算法</button>
+    </nav>
+
+    <div class="dock-body">
+      <!-- 换图与纯色 (Tab 0) -->
+      <section class="sec" data-p="0">
+        <div class="card">
+          <div class="card-title">换图<small id="img_info">未加载</small></div>
+          <label class="drop-zone" id="drop_zone" for="file_input">
+            <input type="file" id="file_input" accept="image/*">
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Z"/></svg>
+            <p><b>选择相册 / 电脑图片</b>或拖拽到此处</p>
+          </label>
+          <div class="solid-color-row">
+            <span>纯色底图</span>
+            <button type="button" class="btn-solid" style="background:#f8fafc" title="纯白" onclick="fillCanvasSolid('white')"></button>
+            <button type="button" class="btn-solid" style="background:#1e293b" title="纯黑" onclick="fillCanvasSolid('black')"></button>
+            <button type="button" class="btn-solid" style="background:#dc2626" title="纯红" onclick="fillCanvasSolid('red')"></button>
+            <button type="button" class="btn-solid" style="background:#eab308" title="纯黄" onclick="fillCanvasSolid('yellow')"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 预览图导出 (Tab 0) -->
+      <section class="sec tools" data-p="0">
+        <div class="card">
+          <div class="card-title">固件开发与导出</div>
+          <div class="btn-secondary-group">
+            <button type="button" class="btn-secondary" onclick="exportPreviewPng()"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>保存当前预览图 (.png)</button>
+            <button type="button" class="btn-secondary" onclick="exportBinFile()"><svg class="i" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"/></svg>导出 .bin</button>
+            <button type="button" class="btn-secondary" onclick="exportCHeader()"><svg class="i" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>导出 .h</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 构图与调色 (Tab 1) -->
+      <section class="sec" data-p="1">
+        <div class="card">
+          <div class="card-title">构图与调色</div>
+          <div class="tune-row">
+            <span class="tune-lbl">屏幕方向</span>
+            <select id="s_rot" class="rot-select" onchange="onScreenRotChange()">
+              <option value="0">横屏 0° (768×552 正向横放)</option>
+              <option value="1" selected>竖屏 90° (552×768 顺时针竖放)</option>
+              <option value="2">倒置横屏 180° (768×552)</option>
+              <option value="3">反向竖屏 270° (552×768 逆时针竖放)</option>
+            </select>
+          </div>
+          <div class="tune-row">
+            <span class="tune-lbl">旋转朝向</span>
+            <div class="tune-opts">
+              <button type="button" class="btn-opt active" id="btn_rot_0" onclick="setImgRot(0)">0°</button>
+              <button type="button" class="btn-opt" id="btn_rot_90" onclick="setImgRot(90)">90°</button>
+              <button type="button" class="btn-opt" id="btn_rot_180" onclick="setImgRot(180)">180°</button>
+              <button type="button" class="btn-opt" id="btn_rot_270" onclick="setImgRot(270)">270°</button>
+            </div>
+          </div>
+          <div class="tune-row">
+            <span class="tune-lbl">画幅填充</span>
+            <div class="tune-opts">
+              <button type="button" class="btn-opt" id="btn_cover_opt" onclick="setFit('cover')">裁剪填满</button>
+              <button type="button" class="btn-opt active" id="btn_contain_opt" onclick="setFit('contain')">完整留白</button>
+            </div>
+          </div>
+          <div class="tune-row">
+            <span class="tune-lbl">亮度</span>
+            <input type="range" id="sl_bright" min="-50" max="50" value="0" oninput="onParamChange()">
+            <span class="val" id="val_bright">0</span>
+          </div>
+          <div class="tune-row">
+            <span class="tune-lbl">对比度</span>
+            <input type="range" id="sl_contrast" min="50" max="150" value="100" oninput="onParamChange()">
+            <span class="val" id="val_contrast">1.0</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 显色算法 (Tab 2) -->
+      <section class="sec" data-p="2">
+        <div class="card">
+          <div class="card-title">显色算法</div>
+          <div class="algo-grid">
+            <div class="algo-item active" data-mode="gold" onclick="setAlgo('gold')"><div class="algo-name">鎏金 Atkinson</div><div class="algo-desc">感知加权扩散，摄影全彩</div></div>
+            <div class="algo-item" data-mode="lomo" onclick="setAlgo('lomo')"><div class="algo-name">质感 LOMO</div><div class="algo-desc">胶片调色，深邃暗部推白高光</div></div>
+            <div class="algo-item" data-mode="level" onclick="setAlgo('level')"><div class="algo-name">纯色阶</div><div class="algo-desc">无扩散硬量化，插画专用</div></div>
+            <div class="algo-item" data-mode="ink" onclick="setAlgo('ink')"><div class="algo-name">BT.601 水墨</div><div class="algo-desc">广播灰度权值，黑白颗粒</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">电泳微胶囊占比</div>
+          <div class="meter" id="meter"><i style="background:#1a1a1a"></i><i style="background:#e6e1d6"></i><i style="background:var(--gold)"></i><i style="background:var(--red)"></i></div>
+          <div class="stats-grid">
+            <div class="stat-box"><div class="stat-label"><span class="stat-dot" style="background:#1a1a1a"></span>黑</div><div class="stat-val" id="stat_black">0%</div></div>
+            <div class="stat-box"><div class="stat-label"><span class="stat-dot" style="background:#e6e1d6"></span>白</div><div class="stat-val" id="stat_white">0%</div></div>
+            <div class="stat-box"><div class="stat-label"><span class="stat-dot" style="background:var(--gold)"></span>黄</div><div class="stat-val" id="stat_yellow">0%</div></div>
+            <div class="stat-box"><div class="stat-label"><span class="stat-dot" style="background:var(--red)"></span>红</div><div class="stat-val" id="stat_red">0%</div></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="dock-act">
+      <div class="progress-panel" id="progress_panel">
+        <div class="progress-text"><span id="prog_status">就绪: 等待图片上传</span><span id="prog_percent">0%</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog_fill"></div></div>
+      </div>
+      <button class="btn-primary" id="btn_upload" onclick="startUploadAndRefresh()">
+        <div class="btn-primary-content">
+          <svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M6 9.5a3.5 3.5 0 0 1 0 5M10 7a7 7 0 0 1 0 10M14 4.5a10.5 10.5 0 0 1 0 15M18 2.5a13 13 0 0 1 0 19" transform="translate(1 0) scale(.95)"/></svg>
+          <span>一键刷入墨水屏 · NFC 护航</span>
+        </div>
+      </button>
+    </div>
+  </aside>
+</div>
+
+<script>
+/* ==========================================================================
+ *  3.98" 四色墨水屏 JavaScript 核心图像引擎 (四向物理映射 + 交互平移缩放)
+ * ========================================================================== */
+
+// 四色逻辑调色板 [R, G, B]
+// 0: 黑, 1: 白, 2: 黄, 3: 红
+const PALETTE_LOGIC = [
+  [0, 0, 0],        // 0: 黑
+  [255, 255, 255],  // 1: 白
+  [245, 205, 0],    // 2: 黄
+  [200, 0, 0]       // 3: 红
+];
+
+// 墨水屏仿真调色板 (微米级柔和底白，真实电泳红黑黄)
+const PALETTE_EPD = [
+  [26, 26, 26],     // 0: 黑
+  [244, 239, 230],  // 1: 微米纸质底白
+  [245, 205, 0],    // 2: 黄
+  [200, 0, 0]       // 3: 红
+];
+
+// 质感模式 4x5 LOMO 调色矩阵 (增益 1.7, 偏置 -73.1, 交点 81)
+const LOMO_M = [
+  1.7, 0.1, 0.1, -73.1,
+  0.0, 1.7, 0.1, -73.1,
+  0.0, 0.1, 1.6, -73.1
+];
+
+// Atkinson 6/8 邻居步进
+const ATKINSON_OFFSETS = [
+  [1, 0], [2, 0],
+  [-1, 1], [0, 1], [1, 1],
+  [0, 2]
+];
+
+// 核心画布与参数状态
+let g_screen_rot = 1; // 0: 横屏0°, 1: 竖屏90° (默认), 2: 倒置横屏180°, 3: 反向竖屏270°
+let g_W = 552;
+let g_H = 768;
+
+let g_source_img = null;
+let g_source_file = null;
+let g_current_algo = 'gold'; // 'gold', 'lomo', 'level', 'ink'
+let g_view_tab = 'epd';      // 'epd', 'pixel', 'orig'
+let g_current_fit = 'contain';
+
+// 几何变换参数
+let g_pan_x = 0;
+let g_pan_y = 0;
+let g_scale = 1.0;
+let g_img_rot = 0; // 0, 90, 180, 270
+let g_flip = 1;    // 1 or -1
+
+const MAX_PIXELS = 552 * 768;
+let g_quantized_codes = new Uint8Array(MAX_PIXELS); // 2-bit color code (0..3)
+let g_is_refreshing = false;
+let g_raf_id = 0;
+
+// 预分配离屏画布与浮点色彩工作缓冲区 (零 GC 内存抖动)
+const g_off_canvas = document.createElement('canvas');
+const g_off_ctx = g_off_canvas.getContext('2d', { willReadFrequently: true });
+const g_buf_r = new Float32Array(MAX_PIXELS);
+const g_buf_g = new Float32Array(MAX_PIXELS);
+const g_buf_b = new Float32Array(MAX_PIXELS);
+const g_bc_lut = new Float32Array(256);
+
+const canvas = document.getElementById('screen_canvas');
+const ctx = canvas.getContext('2d');
+const cvWrap = document.getElementById('cv_wrap');
+const tag = document.getElementById('ov_tag');
+
+function scheduleRender() {
+  if (g_raf_id) return;
+  g_raf_id = requestAnimationFrame(() => {
+    g_raf_id = 0;
+    renderPreview();
+  });
+}
+
+/* ---------------- 屏幕显示方向切换 ---------------- */
+function onScreenRotChange() {
+  g_screen_rot = parseInt(document.getElementById('s_rot').value);
+
+  if (g_screen_rot === 1 || g_screen_rot === 3) {
+    g_W = 552;
+    g_H = 768;
+    cvWrap.className = 'canvas-wrapper portrait';
+    tag.textContent = (g_screen_rot === 1) ? '竖屏 90° (552×768)' : '反向竖屏 270° (552×768)';
+  } else {
+    g_W = 768;
+    g_H = 552;
+    cvWrap.className = 'canvas-wrapper landscape';
+    tag.textContent = (g_screen_rot === 0) ? '横屏 0° (768×552)' : '倒置横屏 180° (768×552)';
+  }
+
+  canvas.width = g_W;
+  canvas.height = g_H;
+  g_off_canvas.width = g_W;
+  g_off_canvas.height = g_H;
+
+  if (g_source_img) {
+    applyFitInternal(g_current_fit);
+  } else {
+    renderPreview();
+  }
+}
+
+/* ---------------- 视口标签切换 ---------------- */
+function setViewTab(tab) {
+  g_view_tab = tab;
+  ['epd', 'pixel', 'orig'].forEach(t => {
+    document.getElementById('tab_' + t).classList.toggle('active', t === tab);
+  });
+  renderPreview();
+}
+
+/* ---------------- 图像变换与构图控制 ---------------- */
+function onScaleChange(v) {
+  g_scale = v / 100.0;
+  document.getElementById('sc_txt').textContent = Math.round(v) + '%';
+  scheduleRender();
+}
+
+function updateScaleUI() {
+  const p = Math.max(20, Math.min(300, Math.round(g_scale * 100)));
+  document.getElementById('sc_rng').value = p;
+  document.getElementById('sc_txt').textContent = p + '%';
+}
+
+function zoomStep(d) {
+  g_scale = Math.max(0.2, Math.min(3.0, g_scale + d));
+  updateScaleUI();
+  renderPreview();
+}
+
+function setImgRot(deg) {
+  g_img_rot = deg % 360;
+  updateRotButtons();
+  applyFitInternal(g_current_fit);
+}
+
+function rotL() {
+  g_img_rot = (g_img_rot + 270) % 360;
+  updateRotButtons();
+  applyFitInternal(g_current_fit);
+}
+
+function rotR() {
+  g_img_rot = (g_img_rot + 90) % 360;
+  updateRotButtons();
+  applyFitInternal(g_current_fit);
+}
+
+function updateRotButtons() {
+  [0, 90, 180, 270].forEach(deg => {
+    const el = document.getElementById('btn_rot_' + deg);
+    if (el) el.classList.toggle('active', g_img_rot === deg);
+  });
+}
+
+function toggleFlip() {
+  g_flip = -g_flip;
+  renderPreview();
+}
+
+function resetTransform() {
+  g_pan_x = 0;
+  g_pan_y = 0;
+  g_img_rot = 0;
+  g_flip = 1;
+  updateRotButtons();
+  setFit('contain');
+}
+
+function applyFitInternal(fit) {
+  if (!g_source_img) return;
+  const ew = (g_img_rot % 180 === 0) ? g_source_img.width : g_source_img.height;
+  const eh = (g_img_rot % 180 === 0) ? g_source_img.height : g_source_img.width;
+  if (fit === 'cover') {
+    g_scale = Math.max(g_W / ew, g_H / eh);
+  } else {
+    g_scale = Math.min(g_W / ew, g_H / eh);
+  }
+  g_pan_x = 0;
+  g_pan_y = 0;
+  updateScaleUI();
+  renderPreview();
+}
+
+function setFit(fit) {
+  g_current_fit = fit;
+  document.getElementById('btn_fit_contain').classList.toggle('active', fit === 'contain');
+  document.getElementById('btn_fit_cover').classList.toggle('active', fit === 'cover');
+  document.getElementById('btn_contain_opt').classList.toggle('active', fit === 'contain');
+  document.getElementById('btn_cover_opt').classList.toggle('active', fit === 'cover');
+  applyFitInternal(fit);
+}
+
+/* ---------------- 交互手势与平移锁定控制 (对齐参考设计) ---------------- */
+let panMode = false;
+let isDragging = false;
+let lx = 0, ly = 0;
+let touchStartX = 0, touchStartY = 0, touchIsPanning = false;
+
+function updateTipText() {
+  const tip = document.getElementById('ov_tip');
+  if (!tip) return;
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    tip.textContent = panMode ? '[平移已锁定] 点此恢复滑动' : '[浏览模式] 点击开启平移';
+  } else {
+    tip.textContent = panMode ? '[已锁定平移] 点此恢复页面滑动' : '[浏览模式] 点此开启平移';
+  }
+  tip.style.background = panMode ? 'rgba(40, 104, 79, 0.92)' : 'rgba(0, 0, 0, 0.68)';
+  tip.style.borderColor = panMode ? 'rgba(74, 222, 128, 0.5)' : 'rgba(255, 255, 255, 0.2)';
+}
+
+function togglePanMode() {
+  panMode = !panMode;
+  updateTipText();
+}
+window.addEventListener('resize', updateTipText);
+
+function getPos(e) {
+  if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  return { x: e.clientX, y: e.clientY };
+}
+
+// 电脑端鼠标平移
+canvas.addEventListener('mousedown', (e) => {
+  if (!panMode) return;
+  if (!g_source_img) return;
+  isDragging = true;
+  const p = getPos(e);
+  lx = p.x; ly = p.y;
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isDragging || !g_source_img) return;
+  const p = getPos(e);
+  const rect = canvas.getBoundingClientRect();
+  const f = g_W / rect.width;
+  g_pan_x += (p.x - lx) * f;
+  g_pan_y += (p.y - ly) * f;
+  lx = p.x; ly = p.y;
+  scheduleRender();
+});
+
+window.addEventListener('mouseup', () => { isDragging = false; });
+
+// 手机端触摸手势 (智能区分页面滑动与图片平移)
+canvas.addEventListener('touchstart', (e) => {
+  if (!g_source_img) return;
+  if (e.touches && e.touches.length === 1) {
+    isDragging = true;
+    touchIsPanning = false;
+    const p = getPos(e);
+    lx = p.x; ly = p.y;
+    touchStartX = p.x; touchStartY = p.y;
+  }
+}, { passive: true });
+
+canvas.addEventListener('touchmove', (e) => {
+  if (!isDragging || !g_source_img) return;
+  const p = getPos(e);
+  const dx = Math.abs(p.x - touchStartX);
+  const dy = Math.abs(p.y - touchStartY);
+
+  // 当开启平移锁定，或者用户在画幅内以水平滑动为主时，拦截滚动执行平移；否则允许自然向上/向下滑动页面
+  if (panMode) {
+    if (e.cancelable) e.preventDefault();
+    touchIsPanning = true;
+    const rect = canvas.getBoundingClientRect();
+    const f = g_W / rect.width;
+    g_pan_x += (p.x - lx) * f;
+    g_pan_y += (p.y - ly) * f;
+    lx = p.x; ly = p.y;
+    scheduleRender();
+  } else if (!touchIsPanning) {
+    isDragging = false;
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchend', () => {
+  if (isDragging || touchIsPanning) {
+    isDragging = false;
+    touchIsPanning = false;
+  }
+});
+
+// 鼠标滚轮缩放
+canvas.addEventListener('wheel', (e) => {
+  if (!g_source_img) return;
+  e.preventDefault();
+  const delta = (e.deltaY < 0) ? 0.08 : -0.08;
+  zoomStep(delta);
+}, { passive: false });
+
+/* ---------------- 纯色底图快捷选择 ---------------- */
+function fillCanvasSolid(colorName) {
+  const c = document.createElement('canvas');
+  c.width = 64; c.height = 64;
+  const cx = c.getContext('2d');
+  const colorMap = {
+    'white': '#ffffff',
+    'black': '#000000',
+    'red': '#c80000',
+    'yellow': '#f5cd00'
+  };
+  cx.fillStyle = colorMap[colorName] || '#ffffff';
+  cx.fillRect(0, 0, 64, 64);
+
+  const img = new Image();
+  img.onload = () => {
+    g_source_img = img;
+    g_source_file = { name: `纯色底图_${colorName}.png` };
+    document.getElementById('img_info').textContent = `纯色底图 (${colorName.toUpperCase()})`;
+    setFit('cover');
+  };
+  img.src = c.toDataURL('image/png');
+}
+
+/* ---------------- 文件拖拽与选择 ---------------- */
+const dropZone = document.getElementById('drop_zone');
+const fileInput = document.getElementById('file_input');
+
+fileInput.onchange = (e) => {
+  if (e.target.files && e.target.files[0]) {
+    loadLocalFile(e.target.files[0]);
+  }
+  fileInput.value = '';
+};
+dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('dragover'); };
+dropZone.ondragleave = () => dropZone.classList.remove('dragover');
+dropZone.ondrop = (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+    loadLocalFile(e.dataTransfer.files[0]);
+  }
+};
+
+function loadLocalFile(file) {
+  g_source_file = file;
+  const reader = new FileReader();
+  reader.onload = (evt) => {
+    const img = new Image();
+    img.onload = () => {
+      g_source_img = img;
+      document.getElementById('img_info').textContent = `${file.name} (${img.width}×${img.height})`;
+      setFit('contain');
+    };
+    img.src = evt.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// 粘贴图片支持
+window.addEventListener('paste', (e) => {
+  const items = e.clipboardData && e.clipboardData.items;
+  if (!items) return;
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].type.indexOf('image') !== -1) {
+      const file = items[i].getAsFile();
+      if (file) loadLocalFile(file);
+      break;
+    }
+  }
+});
+
+/* ---------------- 算法选择与参数调整 ---------------- */
+function setAlgo(algo) {
+  g_current_algo = algo;
+  document.querySelectorAll('.algo-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.mode === algo);
+  });
+  renderPreview();
+}
+
+function onParamChange() {
+  document.getElementById('val_bright').textContent = document.getElementById('sl_bright').value;
+  document.getElementById('val_contrast').textContent = (document.getElementById('sl_contrast').value / 100).toFixed(1);
+  scheduleRender();
+}
+
+/* ---------------- 色彩距离与最近邻查找 ---------------- */
+function redmeanDist(r1, g1, b1, r2, g2, b2) {
+  const dr = r1 - r2;
+  const dg = g1 - g2;
+  const db = b1 - b2;
+  const mean = (r1 + r2) >> 1;
+  return (((512 + mean) * dr * dr) >> 8) + (4 * dg * dg) + (((767 - mean) * db * db) >> 8);
+}
+
+function getNearestColor(r, g, b, is_bw) {
+  if (is_bw) {
+    const d0 = redmeanDist(r, g, b, 0, 0, 0);
+    const d1 = redmeanDist(r, g, b, 255, 255, 255);
+    return d0 < d1 ? 0 : 1;
+  }
+  let best = 0;
+  let minDist = 1e30;
+  for (let i = 0; i < 4; i++) {
+    const d = redmeanDist(r, g, b, PALETTE_LOGIC[i][0], PALETTE_LOGIC[i][1], PALETTE_LOGIC[i][2]);
+    if (d < minDist) {
+      minDist = d;
+      best = i;
+    }
+  }
+  return best;
+}
+
+/* ---------------- 基础图像变换绘制 ---------------- */
+function drawBaseImage(targetCtx, targetW, targetH) {
+  targetCtx.fillStyle = "#ffffff";
+  targetCtx.fillRect(0, 0, targetW, targetH);
+  if (!g_source_img) return;
+
+  targetCtx.save();
+  targetCtx.translate(targetW / 2 + g_pan_x, targetH / 2 + g_pan_y);
+  if (g_img_rot !== 0) {
+    targetCtx.rotate((g_img_rot * Math.PI) / 180);
+  }
+  targetCtx.scale(g_scale * g_flip, g_scale);
+  targetCtx.drawImage(g_source_img, -g_source_img.width / 2, -g_source_img.height / 2);
+  targetCtx.restore();
+}
+
+/* ---------------- 核心渲染主流程 ---------------- */
+function renderPreview() {
+  const t0 = performance.now();
+
+  if (!g_source_img) {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, g_W, g_H);
+    ctx.fillStyle = "#888888";
+    ctx.font = "18px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("请在右侧选择或拖入图片", g_W / 2, g_H / 2);
+    document.getElementById('render_time_txt').textContent = "未导入图片";
+    return;
+  }
+
+  // 1. 复用离屏画布绘制基础变换
+  if (g_off_canvas.width !== g_W || g_off_canvas.height !== g_H) {
+    g_off_canvas.width = g_W;
+    g_off_canvas.height = g_H;
+  }
+  drawBaseImage(g_off_ctx, g_W, g_H);
+
+  // 2. 获取原始数据并通过 256 级查找表 (LUT) 极速执行明暗调谐
+  const imgData = g_off_ctx.getImageData(0, 0, g_W, g_H);
+  const data = imgData.data;
+
+  const bright = parseInt(document.getElementById('sl_bright').value);
+  const contrast = parseFloat(document.getElementById('sl_contrast').value) / 100.0;
+
+  for (let v = 0; v < 256; v++) {
+    const c = (v - 128) * contrast + 128 + bright;
+    g_bc_lut[v] = c < 0 ? 0 : (c > 255 ? 255 : c);
+  }
+
+  const totalPixels = g_W * g_H;
+  const bufR = g_buf_r;
+  const bufG = g_buf_g;
+  const bufB = g_buf_b;
+
+  if (g_current_algo === 'lomo') {
+    for (let i = 0; i < totalPixels; i++) {
+      const idx = i << 2;
+      const r = g_bc_lut[data[idx]];
+      const g = g_bc_lut[data[idx + 1]];
+      const b = g_bc_lut[data[idx + 2]];
+      const nr = r * LOMO_M[0] + g * LOMO_M[1] + b * LOMO_M[2] + LOMO_M[3];
+      const ng = r * LOMO_M[4] + g * LOMO_M[5] + b * LOMO_M[6] + LOMO_M[7];
+      const nb = r * LOMO_M[8] + g * LOMO_M[9] + b * LOMO_M[10] + LOMO_M[11];
+      bufR[i] = nr < 0 ? 0 : (nr > 255 ? 255 : nr);
+      bufG[i] = ng < 0 ? 0 : (ng > 255 ? 255 : ng);
+      bufB[i] = nb < 0 ? 0 : (nb > 255 ? 255 : nb);
+    }
+  } else if (g_current_algo === 'ink') {
+    for (let i = 0; i < totalPixels; i++) {
+      const idx = i << 2;
+      const gray = 0.299 * g_bc_lut[data[idx]] + 0.587 * g_bc_lut[data[idx + 1]] + 0.114 * g_bc_lut[data[idx + 2]];
+      bufR[i] = gray; bufG[i] = gray; bufB[i] = gray;
+    }
+  } else {
+    for (let i = 0; i < totalPixels; i++) {
+      const idx = i << 2;
+      bufR[i] = g_bc_lut[data[idx]];
+      bufG[i] = g_bc_lut[data[idx + 1]];
+      bufB[i] = g_bc_lut[data[idx + 2]];
+    }
+  }
+
+  // 3. 执行抖动算法与色彩量化
+  let blackCount = 0;
+  let whiteCount = 0;
+  let yellowCount = 0;
+  let redCount = 0;
+
+  if (g_current_algo === 'level') {
+    // 纯色阶硬量化
+    for (let i = 0; i < totalPixels; i++) {
+      const code = getNearestColor(bufR[i], bufG[i], bufB[i], false);
+      g_quantized_codes[i] = code;
+      if (code === 0) blackCount++;
+      else if (code === 1) whiteCount++;
+      else if (code === 2) yellowCount++;
+      else if (code === 3) redCount++;
+    }
+  } else {
+    // 鎏金 (gold), 质感 (lomo), BT.601水墨 (ink) 均走 Atkinson 6/8
+    const is_bw = (g_current_algo === 'ink');
+
+    for (let y = 0; y < g_H; y++) {
+      const rowOff = y * g_W;
+      for (let x = 0; x < g_W; x++) {
+        const i = rowOff + x;
+        const oldR = bufR[i];
+        const oldG = bufG[i];
+        const oldB = bufB[i];
+
+        const code = getNearestColor(oldR, oldG, oldB, is_bw);
+        g_quantized_codes[i] = code;
+
+        if (code === 0) blackCount++;
+        else if (code === 1) whiteCount++;
+        else if (code === 2) yellowCount++;
+        else if (code === 3) redCount++;
+
+        const targetRGB = PALETTE_LOGIC[code];
+        const errR = (oldR - targetRGB[0]) / 8;
+        const errG = (oldG - targetRGB[1]) / 8;
+        const errB = (oldB - targetRGB[2]) / 8;
+
+        for (let k = 0; k < 6; k++) {
+          const nx = x + ATKINSON_OFFSETS[k][0];
+          const ny = y + ATKINSON_OFFSETS[k][1];
+          if (nx >= 0 && nx < g_W && ny >= 0 && ny < g_H) {
+            const ni = ny * g_W + nx;
+            bufR[ni] += errR;
+            bufG[ni] += errG;
+            bufB[ni] += errB;
+          }
+        }
+      }
+    }
+  }
+
+  // 4. 更新色彩占比
+  document.getElementById('stat_black').textContent = (blackCount / totalPixels * 100).toFixed(1) + '%';
+  document.getElementById('stat_white').textContent = (whiteCount / totalPixels * 100).toFixed(1) + '%';
+  document.getElementById('stat_yellow').textContent = (yellowCount / totalPixels * 100).toFixed(1) + '%';
+  document.getElementById('stat_red').textContent = (redCount / totalPixels * 100).toFixed(1) + '%';
+
+  // 5. 渲染上屏 (根据选定视口模式)
+  if (g_view_tab === 'orig') {
+    // 原图对比视图
+    for (let i = 0; i < totalPixels; i++) {
+      const idx = i * 4;
+      data[idx] = bufR[i];
+      data[idx + 1] = bufG[i];
+      data[idx + 2] = bufB[i];
+      data[idx + 3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+  } else {
+    // 墨水屏物理仿真 / 逻辑像素视图
+    const palette = (g_view_tab === 'epd') ? PALETTE_EPD : PALETTE_LOGIC;
+    for (let i = 0; i < totalPixels; i++) {
+      const idx = i * 4;
+      const rgb = palette[g_quantized_codes[i]];
+      data[idx] = rgb[0];
+      data[idx + 1] = rgb[1];
+      data[idx + 2] = rgb[2];
+      data[idx + 3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  const cost = (performance.now() - t0).toFixed(0);
+  document.getElementById('render_time_txt').textContent = `渲染耗时: ${cost}ms`;
+}
+
+/* ---------------- 四向屏幕物理点阵空间映射 ---------------- */
+function mapCanvasToPhysicalCodes(canvasCodes, srot, W, H) {
+  // 无论当前处于哪种显示方向，物理屏幕扫描序列统一为 552×768 矩阵
+  const finalCodes = new Uint8Array(552 * 768);
+  for (let Y = 0; Y < 768; Y++) {
+    for (let X = 0; X < 552; X++) {
+      let cx, cy;
+      if (srot === 0) {
+        // 横屏 0° (768×552 正向横放)
+        cx = 767 - Y;
+        cy = X;
+      } else if (srot === 1) {
+        // 竖屏 90° (552×768 顺时针竖放) -> 物理A1安装正立
+        cx = 551 - X;
+        cy = 767 - Y;
+      } else if (srot === 2) {
+        // 倒置横屏 180° (768×552)
+        cx = Y;
+        cy = 551 - X;
+      } else {
+        // 反向竖屏 270° (552×768 逆时针竖放)
+        cx = X;
+        cy = Y;
+      }
+      finalCodes[Y * 552 + X] = canvasCodes[cy * W + cx];
+    }
+  }
+  return finalCodes;
+}
+
+/* ---------------- 2bpp 硬件扫描序列打包 ---------------- */
+function packCodes(codes) {
+  // 552 × 768 / 4 = 105,984 字节
+  const packed = new Uint8Array((552 * 768) / 4);
+  let outIdx = 0;
+  for (let x = 551; x >= 0; x--) {
+    for (let y = 767; y >= 0; y -= 4) {
+      let val = 0;
+      for (let n = 0; n < 4; n++) {
+        const code = codes[(y - n) * 552 + x] & 3;
+        val |= (code << (6 - 2 * n));
+      }
+      packed[outIdx++] = val;
+    }
+  }
+  return packed;
+}
+
+/* ---------------- 官方标准 LZO1X 压缩引擎 (100% 字节级对齐) ---------------- */
+class LzoWriter {
+  constructor(capacity) {
+    this.buf = new Uint8Array(capacity);
+    this.size = 0;
+  }
+  writeByte(val) {
+    this.buf[this.size++] = val & 0xFF;
+  }
+  append(raw, offset, length) {
+    this.buf.set(raw.subarray(offset, offset + length), this.size);
+    this.size += length;
+  }
+  zeroLength(length) {
+    while (length > 255) {
+      this.writeByte(0);
+      length -= 255;
+    }
+    this.writeByte(length);
+  }
+  literal(raw, offset, length, lastMatch) {
+    if (length <= 0) return;
+    if (length <= 3 && lastMatch >= 0) {
+      this.buf[lastMatch] |= (length & 0x03);
+    } else if (this.size === 0 && length <= 238) {
+      this.writeByte(17 + length);
+    } else if (length <= 18) {
+      this.writeByte(length - 3);
+    } else {
+      this.writeByte(0);
+      this.zeroLength(length - 18);
+    }
+    this.append(raw, offset, length);
+  }
+  match(length, offset) {
+    offset -= 1;
+    if (length <= 8 && offset <= 0x0800) {
+      this.writeByte(((length - 1) << 5) | ((offset & 7) << 2));
+      this.writeByte(offset >> 3);
+    } else {
+      if (length <= 33) {
+        this.writeByte(0x20 | (length - 2));
+      } else {
+        this.writeByte(0x20);
+        this.zeroLength(length - 33);
+      }
+      this.writeByte(offset << 2);
+      this.writeByte(offset >> 6);
+    }
+    return this.size - 2;
+  }
+  toBytes() {
+    return this.buf.slice(0, this.size);
+  }
+}
+
+function lzoHash(data, pos) {
+  const val = (data[pos] << 16) | (data[pos + 1] << 8) | data[pos + 2];
+  // 32-bit integer multiplication in JS: Math.imul
+  const prod = Math.imul(val, 0x9E3779B1);
+  return (prod >>> 18) & 0x3FFF;
+}
+
+function literalLzo(raw) {
+  const writer = new LzoWriter(raw.length + Math.floor(raw.length / 8) + 80);
+  writer.literal(raw, 0, raw.length, -1);
+  writer.writeByte(0x11);
+  writer.writeByte(0);
+  writer.writeByte(0);
+  return writer.toBytes();
+}
+
+const g_lzo_head = new Int32Array(16384);
+const g_lzo_prev = new Int32Array(2048);
+
+function compressedLzo(raw) {
+  const rawLen = raw.length;
+  const writer = new LzoWriter(rawLen + Math.floor(rawLen / 8) + 80);
+  const head = g_lzo_head;
+  head.fill(-1);
+  const prev = (rawLen <= g_lzo_prev.length) ? g_lzo_prev : new Int32Array(rawLen);
+  prev.fill(-1, 0, rawLen);
+
+  let litStart = 0;
+  let pos = 0;
+  let lastMatch = -1;
+
+  while (pos + 2 < rawLen) {
+    let bestPos = -1;
+    let bestLen = 0;
+    if (pos > 0) {
+      const k = lzoHash(raw, pos);
+      let cand = head[k];
+      let visited = 0;
+      while (cand >= 0 && (pos - cand) <= 0x4000 && visited < 64) {
+        visited++;
+        const maxLen = rawLen - pos;
+        let matchL = 0;
+        while (matchL < maxLen && raw[cand + matchL] === raw[pos + matchL]) {
+          matchL++;
+        }
+        if (matchL > bestLen || (matchL === bestLen && matchL >= 3 && (pos - cand) < (pos - bestPos))) {
+          bestLen = matchL;
+          bestPos = cand;
+        }
+        if (bestLen === maxLen) break;
+        cand = prev[cand];
+      }
+    }
+
+    const cur = pos;
+    const k = lzoHash(raw, cur);
+    prev[cur] = head[k];
+    head[k] = cur;
+
+    if (bestLen >= 3) {
+      writer.literal(raw, litStart, cur - litStart, lastMatch);
+      const offset = cur - bestPos;
+      lastMatch = writer.match(bestLen, offset);
+      const limit = Math.min(cur + bestLen, rawLen - 2);
+      for (let ins = cur + 1; ins < limit; ins++) {
+        const ki = lzoHash(raw, ins);
+        prev[ins] = head[ki];
+        head[ki] = ins;
+      }
+      pos = cur + bestLen;
+      litStart = pos;
+    } else {
+      pos++;
+    }
+  }
+
+  writer.literal(raw, litStart, rawLen - litStart, lastMatch);
+  writer.writeByte(0x11);
+  writer.writeByte(0);
+  writer.writeByte(0);
+
+  const compressed = writer.toBytes();
+  const literal = literalLzo(raw);
+  return (compressed.length < literal.length) ? compressed : literal;
+}
+
+function buildD3Packets(packedImage) {
+  const packets = [];
+  const totalBlocks = Math.floor((packedImage.length + 1999) / 2000);
+
+  for (let block = 0; block < totalBlocks; block++) {
+    const offset = block * 2000;
+    const chunk = packedImage.subarray(offset, Math.min(offset + 2000, packedImage.length));
+    const cChunk = compressedLzo(chunk);
+
+    const subCount = Math.floor((cChunk.length + 249) / 250);
+    for (let sub = 0; sub < subCount; sub++) {
+      const subOff = sub * 250;
+      const cnt = Math.min(250, cChunk.length - subOff);
+      const isLast = (subOff + cnt === cChunk.length) ? 1 : 0;
+
+      const pkt = new Uint8Array(7 + cnt);
+      pkt[0] = 0xF0;
+      pkt[1] = 0xD3;
+      pkt[2] = 0x00;
+      pkt[3] = isLast;
+      pkt[4] = cnt + 2;
+      pkt[5] = block;
+      pkt[6] = sub;
+      pkt.set(cChunk.subarray(subOff, subOff + cnt), 7);
+      packets.push(pkt);
+    }
+  }
+  return packets;
+}
+
+function combineD3Packets(packets) {
+  let totalBytes = 0;
+  for (let i = 0; i < packets.length; i++) totalBytes += packets[i].length;
+  const combined = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (let i = 0; i < packets.length; i++) {
+    combined.set(packets[i], offset);
+    offset += packets[i].length;
+  }
+  return combined;
+}
+
+/* ---------------- 导出与保存工具 ---------------- */
+function exportPreviewPng() {
+  if (!g_source_img) {
+    alert("请先导入图片！");
+    return;
+  }
+  const a = document.createElement('a');
+  a.download = `epd_preview_${g_W}x${g_H}_${g_current_algo}.png`;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+/* ---------------- 客户端直接下发与刷屏 ---------------- */
+function startUploadAndRefresh() {
+  if (!g_source_img) {
+    alert("请先导入图片！");
+    return;
+  }
+  if (g_is_refreshing) {
+    alert("墨水屏正在物理刷新中，请耐心等待！");
+    return;
+  }
+
+  const progressPanel = document.getElementById('progress_panel');
+  const progFill = document.getElementById('prog_fill');
+  const progStatus = document.getElementById('prog_status');
+  const progPercent = document.getElementById('prog_percent');
+
+  progressPanel.style.display = 'block';
+  progFill.style.background = 'var(--primary)';
+  progFill.style.width = '5%';
+  progPercent.textContent = '5%';
+  progStatus.textContent = '本地图像引擎处理中 (四向物理映射 + LZO1X压缩)...';
+  g_is_refreshing = true;
+
+  setTimeout(() => {
+    try {
+      // 1. 本地执行四向物理映射 (将用户当前画幅无损映射至 552×768 物理点阵)
+      const finalCodes = mapCanvasToPhysicalCodes(g_quantized_codes, g_screen_rot, g_W, g_H);
+
+      // 2. 本地打包 105,984 字节 2bpp 硬件扫描数据
+      const packedBytes = packCodes(finalCodes);
+
+      // 3. 本地执行 LZO1X 压缩与 D3 APDU 分包生成
+      const d3Packets = buildD3Packets(packedBytes);
+      const combinedPayload = combineD3Packets(d3Packets);
+
+      progFill.style.width = '15%';
+      progPercent.textContent = '15%';
+      progStatus.textContent = `本地计算完成 (${d3Packets.length} 个分包, ${combinedPayload.length} 字节)，正在下发至 ESP32...`;
+
+      // 4. 直接通过 POST /upload_photo 下发至 ESP32 (Flash 0内存流式固化)
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/upload_photo', true);
+      xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+      xhr.timeout = 60000;
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const p = 15 + Math.round((e.loaded / e.total) * 15);
+          progFill.style.width = p + '%';
+          progPercent.textContent = p + '%';
+          progStatus.textContent = `正在传输数据流: ${Math.round(e.loaded/1024)}KB / ${Math.round(e.total/1024)}KB...`;
+        }
+      };
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          try {
+            const res = JSON.parse(xhr.responseText);
+            if (!res.ok) {
+              progStatus.textContent = '[错误] ' + (res.msg || '设备拒绝');
+              progFill.style.background = '#e53e3e';
+              g_is_refreshing = false;
+              return;
+            }
+          } catch(e) {}
+          progFill.style.width = '30%';
+          progPercent.textContent = '30%';
+          progStatus.textContent = '数据已送达设备，NFC 正在寻卡并执行单次电泳护航...';
+          pollRefreshProgress();
+        } else if (xhr.status === 404) {
+          // 如果是本地 Python 调试服务器，降级走 multipart 路由
+          fallbackUploadViaPython();
+        } else {
+          progStatus.textContent = '设备响应错误 (HTTP ' + xhr.status + ')';
+          progFill.style.background = '#e53e3e';
+          g_is_refreshing = false;
+        }
+      };
+
+      xhr.onerror = () => {
+        fallbackUploadViaPython();
+      };
+
+      xhr.send(combinedPayload);
+
+    } catch (err) {
+      console.error(err);
+      alert("本地处理出错: " + err.message);
+      g_is_refreshing = false;
+    }
+  }, 30);
+}
+
+function fallbackUploadViaPython() {
+  const progFill = document.getElementById('prog_fill');
+  const progStatus = document.getElementById('prog_status');
+
+  canvas.toBlob(async (blob) => {
+    const formData = new FormData();
+    formData.append('image', blob, 'epd_canvas.png');
+    formData.append('algo', g_current_algo);
+    formData.append('rot', g_screen_rot);
+    formData.append('fit', 'contain');
+
+    try {
+      const resp = await fetch('/api/upload_and_refresh', {
+        method: 'POST',
+        body: formData
+      });
+      if (resp.ok) {
+        pollRefreshProgress();
+      } else {
+        progStatus.textContent = '上传失败';
+        g_is_refreshing = false;
+      }
+    } catch (e) {
+      progStatus.textContent = '网络连接失败，请检查 Wi-Fi 连接';
+      g_is_refreshing = false;
+    }
+  }, 'image/png');
+}
+
+function pollRefreshProgress() {
+  const progFill = document.getElementById('prog_fill');
+  const progStatus = document.getElementById('prog_status');
+  const progPercent = document.getElementById('prog_percent');
+
+  const timer = setInterval(async () => {
+    try {
+      const res = await fetch('/api/status');
+      if (res.ok) {
+        const data = await res.json();
+        progFill.style.width = data.percent + '%';
+        progPercent.textContent = data.percent + '%';
+        progStatus.textContent = data.status;
+
+        if (data.error) {
+          clearInterval(timer);
+          g_is_refreshing = false;
+          progFill.style.background = '#e53e3e';
+          progStatus.textContent = '[错误] 刷屏出错: ' + data.error;
+          return;
+        }
+
+        if (data.done) {
+          clearInterval(timer);
+          g_is_refreshing = false;
+          progFill.style.background = '#10b981';
+          progStatus.textContent = '[完成] 刷新大功告成！画面已固化，射频天线场已安全断电。';
+        }
+      }
+    } catch (e) {
+      // 忽略轮询网络抖动
+    }
+  }, 1000);
+}
+
+// 页面初始化
+window.onload = () => {
+  onScreenRotChange();
+  updateTipText();
+  renderPreview();
+};
+
+/* ---- UI helpers: pan lock cursor ---- */
+(function(){const t0=togglePanMode;canvas.style.cursor='default';togglePanMode=function(){t0();canvas.style.cursor=panMode?'grab':'default';};})();
+/* ---- UI helpers: portrait view/edit mode ---- */
+function setMode(m){document.body.dataset.mode=m;}
+function toggleEdit(){setMode(document.body.dataset.mode==='edit'?'view':'edit');}
+(function(){const st=document.querySelector('.stage'),dk=document.getElementById('dock');st.addEventListener('click',()=>setMode('view'));dk.addEventListener('click',e=>{if(!e.target.closest('.dock-act,.grip'))setMode('edit');});})();
+/* ---- UI helpers: mobile dock tabs + capsule meter ---- */
+function setDockTab(i){const d=document.getElementById('dock');d.dataset.t=i;d.querySelectorAll('.dtab').forEach((b,k)=>b.classList.toggle('on',k===i));}
+(function(){const ids=['black','white','yellow','red'],bar=document.getElementById('meter');
+const upd=()=>ids.forEach((k,i)=>{bar.children[i].style.flexGrow=parseFloat(document.getElementById('stat_'+k).textContent)||0;});
+const mo=new MutationObserver(upd);ids.forEach(k=>mo.observe(document.getElementById('stat_'+k),{childList:true,characterData:true,subtree:true}));upd();})();
+</script>
+</body>
+</html>
